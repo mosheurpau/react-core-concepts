@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
   return (
     <dev>
       <Counter></Counter>
+      <ExternalUsers></ExternalUsers>
     </dev>
   );
 
@@ -45,6 +46,36 @@ function Products(props) {
   );
  */
 
+//------------External users----------
+
+function ExternalUsers() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+    console.log(users);
+  }, []);
+  return (
+    <div>
+      {users.map((user) => (
+        <Users user={user.name} email={user.email}></Users>
+      ))}
+    </div>
+  );
+}
+
+function Users(props) {
+  console.log(props);
+  return (
+    <div>
+      <h2>Name: {props.user} </h2>
+      <h5>Email: {props.email}</h5>
+    </div>
+  );
+}
+
+//--------------Counter section--------------
 function Counter() {
   const [count, setCount] = useState(5);
   console.log(count);
